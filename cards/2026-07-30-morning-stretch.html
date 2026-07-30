@@ -67,8 +67,8 @@
   }
 
   /* ---------- 版面 ---------- */
-  .page{max-width:920px;margin:0 auto;padding:56px 28px 88px}
-  section{margin-top:56px}
+  .page{max-width:820px;margin:0 auto;padding:56px 28px 88px}
+  section{margin-top:48px}
 
   .top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:16px}
   .eyebrow{font-size:11px;letter-spacing:.28em;color:var(--accent-ink)}
@@ -76,7 +76,7 @@
 
   .sec-label{
     font-size:11px;letter-spacing:.22em;color:var(--muted);
-    display:flex;align-items:center;gap:10px;margin-bottom:20px;
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
   }
   .sec-label::before{content:"";width:22px;height:1px;background:var(--accent)}
 
@@ -106,22 +106,23 @@
   }
   .hero-sub{margin-top:18px;padding-left:64px;color:var(--muted);font-size:14px}
 
-  /* ---------- 习惯回路 ---------- */
-  .loop-row{display:flex;align-items:stretch;gap:10px}
-  .node{
-    flex:1;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:18px 16px;box-shadow:var(--shadow);
+  /* ---------- 结论文字卡（逐条陈列） ---------- */
+  .rows-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:10px 26px;
   }
-  .node.wide{flex:1.7}
-  .node-tag{font-size:10px;letter-spacing:.16em;color:var(--accent-ink);margin-bottom:10px}
-  .node-body{font-size:14px;line-height:1.75}
-  .node-body.dim{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);color:var(--muted)}
-  .ver{
-    display:inline-block;font-style:normal;font-size:10px;letter-spacing:.1em;color:var(--accent-ink);
-    border:1px solid var(--accent-line);border-radius:999px;padding:1px 8px;margin-right:8px;
+  .rows-card.tinted{
+    background:linear-gradient(120deg,var(--accent-soft),transparent 55%),var(--card);
+    border-style:dashed;border-color:var(--accent-line);
   }
-  .arrow{align-self:center;color:var(--accent);font-size:18px;font-family:"SF Mono","Menlo",monospace}
-  .loop-back{margin-top:12px;text-align:right;font-size:11px;letter-spacing:.14em;color:var(--muted)}
+  .row{display:flex;gap:20px;padding:15px 0;border-bottom:1px dashed var(--line);align-items:baseline}
+  .row:last-child{border-bottom:none}
+  .row-label{
+    flex:none;width:130px;font-size:11px;letter-spacing:.12em;color:var(--accent-ink);
+  }
+  .row-body{flex:1;font-size:15px;line-height:1.85}
+  .row-body.ifthen{font-family:"SF Mono","JetBrains Mono","Menlo",monospace;font-size:14px;line-height:2}
+  .row-body .kw{color:var(--accent-ink);font-weight:700}
 
   /* ---------- 习惯叠加 ---------- */
   .stack{
@@ -135,34 +136,6 @@
     font-family:"Songti SC","STSong","Noto Serif SC",serif;
     font-size:clamp(17px,2.4vw,21px);line-height:1.6;
   }
-
-  /* ---------- 四定律 ---------- */
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .law{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:22px 20px;box-shadow:var(--shadow);
-    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
-  }
-  .law:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 20px 48px -18px var(--accent)}
-  .law-no{font-size:22px;color:var(--accent);letter-spacing:.06em}
-  .law h3{
-    font-family:"Songti SC","STSong","Noto Serif SC",serif;font-size:20px;margin:8px 0 2px;
-  }
-  .law-en{font-size:10px;letter-spacing:.18em;color:var(--muted);margin-bottom:12px}
-  .law-body{font-size:14px;line-height:1.75;color:var(--ink)}
-
-  /* ---------- 环境改动 & 破功预案 ---------- */
-  .duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .panel{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:24px 22px;box-shadow:var(--shadow);
-  }
-  .env-item{display:flex;gap:14px;align-items:flex-start;font-size:15px;line-height:1.75}
-  .env-box{
-    flex:none;width:18px;height:18px;margin-top:4px;border:1.5px solid var(--accent);border-radius:4px;
-  }
-  .ifthen{font-size:15px;line-height:2.1}
-  .ifthen .kw{color:var(--accent-ink);font-weight:700}
 
   /* ---------- 本周结论 ---------- */
   .concl{
@@ -223,17 +196,16 @@
   .d7{animation-delay:.65s}
   @media (prefers-reduced-motion:reduce){
     .reveal,.sunlight i,.hero-sun::after{animation:none}
-    .dot,.law{transition:none}
+    .dot{transition:none}
   }
 
   @media (max-width:760px){
-    .loop-row{flex-direction:column}
-    .arrow{transform:rotate(90deg);align-self:center}
-    .grid,.duo{grid-template-columns:1fr}
     .hero-sun{width:120px;height:120px;top:-24px;right:-8px}
     .hero-mark{left:-8px;font-size:88px}
     .identity,.hero .kicker,.hero-sub{padding-left:44px}
     .identity{max-width:100%}
+    .row{flex-direction:column;gap:4px}
+    .row-label{width:auto}
   }
 </style>
 </head>
@@ -256,75 +228,71 @@
     <p class="hero-sub">每一个最小行动，都是对这个身份的一次投票。</p>
   </section>
 
-  <section class="loop reveal d2">
+  <section class="reveal d2" id="loop">
     <p class="sec-label mono">HABIT LOOP · 习惯回路</p>
-    <div class="loop-row">
-      <div class="node">
-        <p class="node-tag mono">01 · CUE 线索</p>
-        <p class="node-body">刷完牙、把水壶放到桌上——这就是启动信号</p>
+    <div class="rows-card">
+      <div class="row">
+        <span class="row-label mono">01 线索 CUE</span>
+        <p class="row-body">刷完牙、把水壶放到桌上——这就是启动信号</p>
       </div>
-      <div class="arrow">→</div>
-      <div class="node">
-        <p class="node-tag mono">02 · CRAVING 渴望</p>
-        <p class="node-body">想要一整天清爽的掌控感</p>
+      <div class="row">
+        <span class="row-label mono">02 渴望 CRAVING</span>
+        <p class="row-body">想要一整天清爽的掌控感</p>
       </div>
-      <div class="arrow">→</div>
-      <div class="node wide">
-        <p class="node-tag mono">03 · RESPONSE 反应</p>
-        <p class="node-body"><em class="ver mono">两分钟版</em>换上运动鞋，跟着贴在镜子上的清单做 2 分钟拉伸</p>
-        <p class="node-body dim"><em class="ver mono">进阶版</em>10 分钟拉伸 + 楼下快走 5 分钟</p>
+      <div class="row">
+        <span class="row-label mono">03 反应 · 两分钟版</span>
+        <p class="row-body">换上运动鞋，跟着贴在镜子上的清单做 2 分钟拉伸</p>
       </div>
-      <div class="arrow">→</div>
-      <div class="node">
-        <p class="node-tag mono">04 · REWARD 奖励</p>
-        <p class="node-body">打卡表打一个勾，然后才允许喝第一口冰美式</p>
+      <div class="row">
+        <span class="row-label mono">03 反应 · 进阶版</span>
+        <p class="row-body">10 分钟拉伸 + 楼下快走 5 分钟</p>
+      </div>
+      <div class="row">
+        <span class="row-label mono">04 奖励 REWARD</span>
+        <p class="row-body">打卡表打一个勾，然后才允许喝第一口冰美式</p>
       </div>
     </div>
-    <p class="loop-back mono">↻ 奖励强化线索，回路闭合</p>
   </section>
 
   <section class="stack reveal d3">
     <span class="stack-icon">⚡</span>
     <p class="stack-text">在刷完牙之后，我会换上运动鞋做 2 分钟拉伸。</p>
   </section>
-  <section class="laws reveal d4" id="laws-build">
+
+  
+  <section class="reveal d4" id="laws-build">
     <p class="sec-label mono">FOUR LAWS · 四定律改造</p>
-    <div class="grid">
-      <div class="law">
-        <p class="law-no mono">01</p>
-        <h3>显而易见</h3>
-        <p class="law-en mono">MAKE IT OBVIOUS</p>
-        <p class="law-body">运动鞋和运动服前一晚摆在床头；打卡表贴在牙刷旁，刷牙即看到</p>
+    <div class="rows-card">
+      <div class="row">
+        <span class="row-label mono">01 显而易见</span>
+        <p class="row-body">运动鞋和运动服前一晚摆在床头；打卡表贴在牙刷旁，刷牙即看到</p>
       </div>
-      <div class="law">
-        <p class="law-no mono">02</p>
-        <h3>有吸引力</h3>
-        <p class="law-en mono">MAKE IT ATTRACTIVE</p>
-        <p class="law-body">拉伸时才允许听最爱的播客；和运动搭子约好互相发打卡照</p>
+      <div class="row">
+        <span class="row-label mono">02 有吸引力</span>
+        <p class="row-body">拉伸时才允许听最爱的播客；和运动搭子约好互相发打卡照</p>
       </div>
-      <div class="law">
-        <p class="law-no mono">03</p>
-        <h3>简便易行</h3>
-        <p class="law-en mono">MAKE IT EASY</p>
-        <p class="law-body">只做 2 分钟起步；动作清单贴在镜子上，不用动脑</p>
+      <div class="row">
+        <span class="row-label mono">03 简便易行</span>
+        <p class="row-body">只做 2 分钟起步；动作清单贴在镜子上，不用动脑</p>
       </div>
-      <div class="law">
-        <p class="law-no mono">04</p>
-        <h3>令人愉悦</h3>
-        <p class="law-en mono">MAKE IT SATISFYING</p>
-        <p class="law-body">打卡表记录连续天数；每满 7 天解锁一顿爱吃的早餐</p>
+      <div class="row">
+        <span class="row-label mono">04 令人愉悦</span>
+        <p class="row-body">打卡表记录连续天数；每满 7 天解锁一顿爱吃的早餐</p>
       </div>
     </div>
   </section>
 
-  <section class="duo reveal d5">
-    <div class="panel">
-      <p class="sec-label mono">TODAY · 今天就能做的环境改动</p>
-      <div class="env-item"><span class="env-box"></span><p>今晚把运动鞋+运动服摆在床头，打卡表贴上墙</p></div>
-    </div>
-    <div class="panel">
-      <p class="sec-label mono">IF-THEN · 破功预案</p>
-      <p class="ifthen mono"><span class="kw">如果</span> 起晚了没时间，<br><span class="kw">那么我仍然会</span> 只做一个拉伸动作 30 秒，保持不断档。</p>
+  <section class="reveal d5" id="exec">
+    <p class="sec-label mono">ACTION · 落地与预案</p>
+    <div class="rows-card">
+      <div class="row">
+        <span class="row-label mono">环境改动 TODAY</span>
+        <p class="row-body">今晚把运动鞋+运动服摆在床头，打卡表贴上墙</p>
+      </div>
+      <div class="row">
+        <span class="row-label mono">破功预案 IF-THEN</span>
+        <p class="row-body ifthen"><span class="kw">如果</span> 起晚了没时间，<br><span class="kw">那么我仍然会</span> 只做一个拉伸动作 30 秒，保持不断档。</p>
+      </div>
     </div>
   </section>
 
