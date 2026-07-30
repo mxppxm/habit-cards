@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>习惯卡片 · Habit Cards</title>
+<style>
+  :root{
+    --bg:#fdf9f0;
+    --ink:#241c12;
+    --muted:#8d7f6b;
+    --line:rgba(36,28,18,.12);
+    --card:#ffffff;
+    --accent:#e2711d;
+    --accent-ink:#b04a0a;
+    --accent-soft:rgba(226,113,29,.10);
+    --blue:#0e8ac8;
+    --blue-ink:#0369a1;
+    --blue-soft:rgba(14,138,200,.10);
+    --shadow:0 1px 2px rgba(36,28,18,.05),0 16px 40px -20px rgba(36,28,18,.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
+    line-height:1.6;
+  }
+  .mono{font-family:"SF Mono","JetBrains Mono","Menlo",monospace}
+  .sun{position:fixed;top:-160px;left:-160px;width:480px;height:480px;border-radius:50%;z-index:-1;
+    background:radial-gradient(circle,rgba(255,190,90,.5),transparent 65%);filter:blur(80px)}
+
+  .page{max-width:760px;margin:0 auto;padding:64px 28px 88px}
+
+  header{display:flex;align-items:center;gap:20px;border-bottom:1px solid var(--line);padding-bottom:28px}
+  .orb{
+    flex:none;width:64px;height:64px;border-radius:50%;
+    background:radial-gradient(circle at 38% 32%,#fffdf4,#ffdf9e 48%,#f49a3e 100%);
+    box-shadow:0 12px 32px -8px rgba(255,190,90,.55);
+  }
+  h1{font-family:"Songti SC","STSong","Noto Serif SC",serif;font-size:32px;letter-spacing:.02em}
+  .sub{font-size:11px;letter-spacing:.22em;color:var(--muted);margin-top:4px}
+
+  .list{margin-top:36px;display:flex;flex-direction:column;gap:12px}
+  .item{
+    display:flex;align-items:center;gap:16px;text-decoration:none;color:var(--ink);
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 22px;box-shadow:var(--shadow);
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .item:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 16px 40px -16px var(--accent)}
+  .d{font-size:11px;letter-spacing:.1em;color:var(--muted);flex:none;width:92px}
+  .t{font-family:"Songti SC","STSong","Noto Serif SC",serif;font-size:18px;flex:1}
+  .tag{flex:none;font-size:10px;letter-spacing:.14em;border-radius:999px;padding:3px 12px}
+  .tag.build{color:var(--accent-ink);background:var(--accent-soft);border:1px solid rgba(226,113,29,.38)}
+  .tag.break{color:var(--blue-ink);background:var(--blue-soft);border:1px solid rgba(14,138,200,.35)}
+
+  .empty{color:var(--muted);font-size:14px;text-align:center;padding:48px 0}
+
+  footer{
+    margin-top:64px;padding-top:18px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;font-size:10px;letter-spacing:.2em;color:var(--muted);
+  }
+
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .reveal{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+  @media (prefers-reduced-motion:reduce){.reveal{animation:none}.item{transition:none}}
+</style>
+</head>
+<body>
+<div class="sun"></div>
+
+<main class="page">
+  <header class="reveal">
+    <div class="orb"></div>
+    <div>
+      <h1>习惯卡片</h1>
+      <p class="sub mono">HABIT CARDS · 每一个最小行动都是一次投票</p>
+    </div>
+  </header>
+
+  <div class="list reveal">
+    <!-- 每张卡片一条 .item，按文件名倒序（新的在前）；tag 二选一：build=养成 / break=戒断 -->
+    <a class="item" href="cards/2026-07-30-morning-stretch.html">
+      <span class="d mono">2026-07-30</span>
+      <span class="t">晨起拉伸</span>
+      <span class="tag build mono">养成</span>
+    </a>
+    <a class="item" href="cards/2026-07-30-no-phone-before-bed.html">
+      <span class="d mono">2026-07-30</span>
+      <span class="t">睡前不刷手机</span>
+      <span class="tag break mono">戒断</span>
+    </a>
+  </div>
+
+  <footer class="mono">
+    <span>NEVER MISS TWICE</span>
+    <span>ATOMIC-HABITS SKILL</span>
+  </footer>
+</main>
+</body>
+</html>

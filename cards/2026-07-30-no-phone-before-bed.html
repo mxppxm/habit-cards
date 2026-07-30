@@ -1,0 +1,354 @@
+<!doctype html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>睡前不刷手机 · 习惯卡片</title>
+<style>
+  :root{
+    --bg:#fdf9f0;
+    --ink:#241c12;
+    --muted:#8d7f6b;
+    --line:rgba(36,28,18,.12);
+    --card:#ffffff;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(36,28,18,.05),0 16px 40px -20px rgba(36,28,18,.16);
+  }
+  body[data-mode="break"]{
+    --accent:#e2711d;
+    --accent-ink:#b04a0a;
+    --accent-soft:rgba(226,113,29,.10);
+    --accent-line:rgba(226,113,29,.38);
+    --sun-core:#ffdf9e;
+    --sun-edge:#f49a3e;
+    --glow-1:rgba(255,190,90,.55);
+    --glow-2:rgba(140,205,250,.35);
+  }
+  body[data-mode="break"]{
+    --accent:#0e8ac8;
+    --accent-ink:#0369a1;
+    --accent-soft:rgba(14,138,200,.10);
+    --accent-line:rgba(14,138,200,.35);
+    --sun-core:#bde6ff;
+    --sun-edge:#3aa5de;
+    --glow-1:rgba(120,200,250,.50);
+    --glow-2:rgba(255,205,120,.35);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  .mono{font-family:"SF Mono","JetBrains Mono","Menlo",monospace}
+
+  /* ---------- 阳光氛围 ---------- */
+  .sunlight{position:fixed;inset:0;z-index:-2;overflow:hidden}
+  .sunlight i{position:absolute;border-radius:50%;filter:blur(100px)}
+  .sunlight i:first-child{
+    width:58vw;height:58vw;top:-24vw;left:-14vw;
+    background:radial-gradient(circle,var(--glow-1),transparent 65%);
+    animation:drift-1 26s ease-in-out infinite alternate;
+  }
+  .sunlight i:last-child{
+    width:52vw;height:52vw;bottom:-26vw;right:-14vw;
+    background:radial-gradient(circle,var(--glow-2),transparent 65%);
+    animation:drift-2 32s ease-in-out infinite alternate;
+  }
+  @keyframes drift-1{from{transform:translate(0,0)}to{transform:translate(6vw,4vw)}}
+  @keyframes drift-2{from{transform:translate(0,0)}to{transform:translate(-5vw,-4vw)}}
+  .grain{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- 版面 ---------- */
+  .page{max-width:920px;margin:0 auto;padding:56px 28px 88px}
+  section{margin-top:56px}
+
+  .top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:16px}
+  .eyebrow{font-size:11px;letter-spacing:.28em;color:var(--accent-ink)}
+  .date{font-size:11px;letter-spacing:.12em;color:var(--muted)}
+
+  .sec-label{
+    font-size:11px;letter-spacing:.22em;color:var(--muted);
+    display:flex;align-items:center;gap:10px;margin-bottom:20px;
+  }
+  .sec-label::before{content:"";width:22px;height:1px;background:var(--accent)}
+
+  /* ---------- 身份宣言 ---------- */
+  .hero{position:relative;padding:48px 0 8px}
+  .hero-sun{position:absolute;right:-16px;top:-48px;width:200px;height:200px;pointer-events:none}
+  .hero-sun::before{
+    content:"";position:absolute;inset:26px;border-radius:50%;
+    background:radial-gradient(circle at 38% 32%,#fffdf4,var(--sun-core) 48%,var(--sun-edge) 100%);
+    box-shadow:0 18px 50px -10px var(--glow-1);
+  }
+  .hero-sun::after{
+    content:"";position:absolute;inset:0;border-radius:50%;
+    border:1.5px dashed var(--accent);opacity:.35;
+    animation:spin 60s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero-mark{
+    position:absolute;top:16px;left:-14px;font-family:"Songti SC","STSong","Noto Serif SC",serif;
+    font-size:120px;line-height:1;color:var(--accent);opacity:.35;pointer-events:none;
+  }
+  .hero .kicker{font-size:11px;letter-spacing:.22em;color:var(--muted);margin-bottom:14px;padding-left:64px}
+  .identity{
+    font-family:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC",serif;
+    font-size:clamp(30px,5vw,50px);font-weight:700;line-height:1.35;letter-spacing:.02em;
+    padding-left:64px;max-width:82%;
+  }
+  .hero-sub{margin-top:18px;padding-left:64px;color:var(--muted);font-size:14px}
+
+  /* ---------- 习惯回路 ---------- */
+  .loop-row{display:flex;align-items:stretch;gap:10px}
+  .node{
+    flex:1;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 16px;box-shadow:var(--shadow);
+  }
+  .node.wide{flex:1.7}
+  .node-tag{font-size:10px;letter-spacing:.16em;color:var(--accent-ink);margin-bottom:10px}
+  .node-body{font-size:14px;line-height:1.75}
+  .node-body.dim{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);color:var(--muted)}
+  .ver{
+    display:inline-block;font-style:normal;font-size:10px;letter-spacing:.1em;color:var(--accent-ink);
+    border:1px solid var(--accent-line);border-radius:999px;padding:1px 8px;margin-right:8px;
+  }
+  .arrow{align-self:center;color:var(--accent);font-size:18px;font-family:"SF Mono","Menlo",monospace}
+  .loop-back{margin-top:12px;text-align:right;font-size:11px;letter-spacing:.14em;color:var(--muted)}
+
+  /* ---------- 习惯叠加 ---------- */
+  .stack{
+    display:flex;align-items:center;gap:18px;
+    border:1px solid var(--accent-line);border-radius:var(--radius);
+    background:linear-gradient(120deg,var(--accent-soft),transparent 60%),var(--card);
+    box-shadow:var(--shadow);padding:22px 26px;
+  }
+  .stack-icon{font-size:22px;color:var(--accent)}
+  .stack-text{
+    font-family:"Songti SC","STSong","Noto Serif SC",serif;
+    font-size:clamp(17px,2.4vw,21px);line-height:1.6;
+  }
+
+  /* ---------- 四定律 ---------- */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .law{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px 20px;box-shadow:var(--shadow);
+    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+  }
+  .law:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 20px 48px -18px var(--accent)}
+  .law-no{font-size:22px;color:var(--accent);letter-spacing:.06em}
+  .law h3{
+    font-family:"Songti SC","STSong","Noto Serif SC",serif;font-size:20px;margin:8px 0 2px;
+  }
+  .law-en{font-size:10px;letter-spacing:.18em;color:var(--muted);margin-bottom:12px}
+  .law-body{font-size:14px;line-height:1.75;color:var(--ink)}
+
+  /* ---------- 环境改动 & 破功预案 ---------- */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .panel{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px 22px;box-shadow:var(--shadow);
+  }
+  .env-item{display:flex;gap:14px;align-items:flex-start;font-size:15px;line-height:1.75}
+  .env-box{
+    flex:none;width:18px;height:18px;margin-top:4px;border:1.5px solid var(--accent);border-radius:4px;
+  }
+  .ifthen{font-size:15px;line-height:2.1}
+  .ifthen .kw{color:var(--accent-ink);font-weight:700}
+
+  /* ---------- 本周打卡 ---------- */
+  .goal{font-family:"Songti SC","STSong","Noto Serif SC",serif;font-size:22px;margin-bottom:24px}
+  .dots{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .dot{
+    width:48px;height:48px;border-radius:50%;cursor:pointer;
+    border:1px solid var(--line);background:var(--card);color:var(--muted);
+    font-family:"PingFang SC",sans-serif;font-size:14px;box-shadow:var(--shadow);
+    transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .dot:hover{transform:scale(1.1);border-color:var(--accent)}
+  .dot.done{
+    background:radial-gradient(circle at 38% 32%,#fffdf4,var(--sun-core) 45%,var(--accent) 100%);
+    border-color:var(--accent);color:var(--ink);font-weight:700;
+    box-shadow:0 0 0 4px var(--accent-soft),0 10px 24px -8px var(--accent);
+  }
+  .count{font-size:12px;letter-spacing:.12em;color:var(--muted)}
+  .rule{margin-top:10px;font-size:11px;letter-spacing:.2em;color:var(--accent-ink)}
+
+  .foot{
+    display:flex;justify-content:space-between;margin-top:72px;padding-top:18px;
+    border-top:1px solid var(--line);font-size:10px;letter-spacing:.24em;color:var(--muted);
+  }
+
+  /* ---------- 入场动画 ---------- */
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  .reveal{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+  .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.25s}
+  .d4{animation-delay:.35s}.d5{animation-delay:.45s}.d6{animation-delay:.55s}
+  @media (prefers-reduced-motion:reduce){
+    .reveal,.sunlight i,.hero-sun::after{animation:none}
+    .dot,.law{transition:none}
+  }
+
+  @media (max-width:760px){
+    .loop-row{flex-direction:column}
+    .arrow{transform:rotate(90deg);align-self:center}
+    .grid,.duo{grid-template-columns:1fr}
+    .hero-sun{width:120px;height:120px;top:-24px;right:-8px}
+    .hero-mark{left:-8px;font-size:88px}
+    .identity,.hero .kicker,.hero-sub{padding-left:44px}
+    .identity{max-width:100%}
+  }
+</style>
+</head>
+<body data-mode="break">
+<div class="sunlight"><i></i><i></i></div>
+<div class="grain"></div>
+
+<main class="page">
+
+  <header class="top">
+    <span class="eyebrow mono">习惯卡片 · HABIT CONTRACT</span>
+    <span class="date mono">2026-07-30</span>
+  </header>
+
+  <section class="hero reveal d1">
+    <div class="hero-sun"></div>
+    <div class="hero-mark">「</div>
+    <p class="kicker mono">身份 · IDENTITY</p>
+    <h1 class="identity">我是一个会到点就放下手机睡觉的人。</h1>
+    <p class="hero-sub">每一个最小行动，都是对这个身份的一次投票。</p>
+  </section>
+
+  <section class="loop reveal d2">
+    <p class="sec-label mono">HABIT LOOP · 习惯回路</p>
+    <div class="loop-row">
+      <div class="node">
+        <p class="node-tag mono">01 · CUE 线索</p>
+        <p class="node-body">洗漱完、躺上床、关灯——这个瞬间就是触发器</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node">
+        <p class="node-tag mono">02 · CRAVING 渴望</p>
+        <p class="node-body">不是真想看内容，是想放松、想给今天一个「切换掉」的仪式</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node wide">
+        <p class="node-tag mono">03 · RESPONSE 反应</p>
+        <p class="node-body"><em class="ver mono">两分钟版</em>躺下后打开一段定时 20 分钟自动停的音频（播客/有声书/白噪音），或翻开床头的书读一页——只要求开始，不要求读完</p>
+        <p class="node-body dim"><em class="ver mono">进阶版</em>11 点前关灯上床，读 10–15 分钟书，11:15 前睡着</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node">
+        <p class="node-tag mono">04 · REWARD 奖励</p>
+        <p class="node-body">床头打卡表上打一个勾；第二天早上记一个「清醒度」1–5 分，让好处被自己看见</p>
+      </div>
+    </div>
+    <p class="loop-back mono">↻ 奖励强化线索，回路闭合</p>
+  </section>
+
+  <section class="stack reveal d3">
+    <span class="stack-icon">⚡</span>
+    <p class="stack-text">在关灯躺到床上之后，我会打开定时 20 分钟的音频（或拿起书读一页）。</p>
+  </section>
+  <section class="laws reveal d4" id="laws-break">
+    <p class="sec-label mono">INVERSION · 反向四定律改造</p>
+    <div class="grid">
+      <div class="law">
+        <p class="law-no mono">01</p>
+        <h3>隐而不显</h3>
+        <p class="law-en mono">MAKE IT INVISIBLE</p>
+        <p class="law-body">手机和充电器一起放客厅，不进卧室。卧室只留一个闹钟，手机就没有进卧室的理由</p>
+      </div>
+      <div class="law">
+        <p class="law-no mono">02</p>
+        <h3>毫无魅力</h3>
+        <p class="law-en mono">MAKE IT UNATTRACTIVE</p>
+        <p class="law-body">客厅手机旁贴一张便签：「刷一小时 = 明早昏一上午」，想拿手机时先看到它</p>
+      </div>
+      <div class="law">
+        <p class="law-no mono">03</p>
+        <h3>难以实行</h3>
+        <p class="law-en mono">MAKE IT HARD</p>
+        <p class="law-body">睡前把短视频/信息流 App 登出或开应用限额；要刷就必须起床、走到客厅、开灯、登录</p>
+      </div>
+      <div class="law">
+        <p class="law-no mono">04</p>
+        <h3>令人反感</h3>
+        <p class="law-en mono">MAKE IT UNSATISFYING</p>
+        <p class="law-body">床头打卡表破功一次记一笔；或跟一个人约定：破功当晚发一句「我又刷了」</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="duo reveal d5">
+    <div class="panel">
+      <p class="sec-label mono">TODAY · 今天就能做的环境改动</p>
+      <div class="env-item"><span class="env-box"></span><p>今晚把手机+充电器固定放客厅，床头摆一本书（或设好音频定时）和一张打卡表</p></div>
+    </div>
+    <div class="panel">
+      <p class="sec-label mono">IF-THEN · 破功预案</p>
+      <p class="ifthen mono"><span class="kw">如果</span> 晚上顺手把手机带进了卧室，<br><span class="kw">那么我仍然会</span> 在关灯前把它放回客厅——只要求自己走这一步，不要求「今晚一定不刷」。</p>
+    </div>
+  </section>
+
+  <section class="week reveal d6">
+    <p class="sec-label mono">THIS WEEK · 本周成功标准</p>
+    <p class="goal">完成 4 晚「手机留客厅 + 躺下后替代动作」打卡</p>
+    <div class="dots">
+      <button class="dot" type="button">一</button>
+      <button class="dot" type="button">二</button>
+      <button class="dot" type="button">三</button>
+      <button class="dot" type="button">四</button>
+      <button class="dot" type="button">五</button>
+      <button class="dot" type="button">六</button>
+      <button class="dot" type="button">日</button>
+    </div>
+    <p class="count mono" id="count" data-target="4">本周已完成 0 / 7 · 目标 4 次</p>
+    <p class="rule mono">允许错过 1 次 · 但绝不连续错过 2 次</p>
+  </section>
+
+  <footer class="foot mono">
+    <span>NEVER MISS TWICE · 绝不连续错过两次</span>
+    <span>2026-07-30</span>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  var KEY = 'habit-card:' + location.pathname;
+  var dots = [].slice.call(document.querySelectorAll('.dot'));
+  var count = document.getElementById('count');
+  var target = count.getAttribute('data-target');
+  var state = [];
+  try { state = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) {}
+  function render(){
+    var n = 0;
+    dots.forEach(function(d, i){
+      var on = !!state[i];
+      d.classList.toggle('done', on);
+      d.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (on) n++;
+    });
+    count.textContent = '本周已完成 ' + n + ' / 7 · 目标 ' + target + ' 次';
+  }
+  dots.forEach(function(d, i){
+    d.addEventListener('click', function(){
+      state[i] = !state[i];
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      render();
+    });
+  });
+  render();
+})();
+</script>
+</body>
+</html>
